@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Belgrade Marathon 2026 — Training Dashboard</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --orange: #ff6b35;
+    --gold: #f7c948;
+    --green: #4aff6b;
+    --blue: #4a9eff;
+    --red: #ff4444;
+    --bg: #0a0a0a;
+    --bg2: #0f0f0f;
+    --card: #161622;
+    --border: #2a2a3a;
+    --text: #f0f0f0;
+    --muted: #888;
+    --dim: #666;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #1a1a1a;
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    height: 56px;
+  }
+  nav .logo {
+    font-weight: 900;
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, var(--orange), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-right: 30px;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 18px 12px;
+    transition: color 0.2s;
+  }
+  nav a:hover, nav a.active { color: var(--orange); }
+  nav .countdown {
+    margin-left: auto;
+    font-size: 0.85rem;
+    color: var(--dim);
+  }
+  nav .countdown strong { color: var(--orange); font-size: 1.1rem; }
+
+  .page { padding-top: 56px; }
+
+  /* SECTIONS */
+  .slide {
+    min-height: 100vh;
+    padding: 60px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  .slide:nth-child(odd) { background: var(--bg); }
+  .slide:nth-child(even) { background: var(--bg2); }
+  .slide-compact { min-height: auto; padding: 50px 80px; }
+
+  /* Title Slide */
+  .slide-title {
+    text-align: center;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #0a0a0a 100%);
+  }
+  .slide-title h1 {
+    font-size: 4.5rem;
+    font-weight: 900;
+    letter-spacing: -2px;
+    background: linear-gradient(135deg, var(--orange), var(--gold), var(--orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+  }
+  .slide-title .subtitle { font-size: 1.8rem; font-weight: 300; color: var(--muted); margin-bottom: 40px; }
+  .slide-title .meta { font-size: 1.1rem; color: var(--dim); line-height: 2; }
+  .slide-title .meta strong { color: var(--orange); }
+
+  h2 {
+    font-size: 2.8rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+    margin-bottom: 40px;
+    color: var(--orange);
+  }
+  h2 .number {
+    display: inline-block;
+    background: var(--orange);
+    color: var(--bg);
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 50px;
+    font-size: 1.4rem;
+    margin-right: 15px;
+    vertical-align: middle;
+  }
+
+  h3 {
+    font-size: 1.4rem; font-weight: 700; color: var(--gold);
+    margin: 30px 0 15px 0; text-transform: uppercase; letter-spacing: 1px;
+  }
+
+  p, li { font-size: 1.15rem; line-height: 1.8; color: #ccc; }
+  ul { list-style: none; padding: 0; }
+  ul li { padding: 8px 0 8px 30px; position: relative; }
+  ul li::before { content: '→'; position: absolute; left: 0; color: var(--orange); font-weight: 700; }
+
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 1.05rem; }
+  thead th {
+    background: var(--orange); color: var(--bg); padding: 14px 18px;
+    text-align: left; font-weight: 700; font-size: 0.95rem;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  thead th:first-child { border-radius: 8px 0 0 0; }
+  thead th:last-child { border-radius: 0 8px 0 0; }
+  tbody td { padding: 12px 18px; border-bottom: 1px solid #222; color: #ccc; }
+  tbody tr:hover { background: #1a1a2e; }
+
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin: 20px 0; }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 30px; transition: transform 0.2s;
+  }
+  .card:hover { transform: translateY(-3px); border-color: var(--orange); }
+  .card h4 { font-size: 1.2rem; color: var(--gold); margin-bottom: 12px; }
+  .card p { font-size: 1rem; color: #aaa; }
+
+  .warning {
+    background: linear-gradient(135deg, #2a1a0a, #1a1a0a);
+    border-left: 4px solid var(--orange); padding: 25px 30px;
+    border-radius: 0 12px 12px 0; margin: 20px 0;
+  }
+  .warning p { color: #f0c060; }
+
+  .info {
+    background: linear-gradient(135deg, #0a1a2a, #0a1a1a);
+    border-left: 4px solid var(--blue); padding: 25px 30px;
+    border-radius: 0 12px 12px 0; margin: 20px 0;
+  }
+  .info p { color: #8ac4ff; }
+
+  .success {
+    background: linear-gradient(135deg, #0a2a1a, #0a1a0a);
+    border-left: 4px solid var(--green); padding: 25px 30px;
+    border-radius: 0 12px 12px 0; margin: 20px 0;
+  }
+  .success p { color: #8affaa; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 25px; }
+
+  .big-stat { text-align: center; padding: 20px; }
+  .big-stat .number-val { font-size: 4rem; font-weight: 900; color: var(--orange); }
+  .big-stat .label { font-size: 1rem; color: var(--dim); text-transform: uppercase; letter-spacing: 2px; }
+
+  .pace-band {
+    display: flex; align-items: center; padding: 15px 20px; margin: 8px 0; border-radius: 10px; font-size: 1rem;
+  }
+  .pace-band .km { font-weight: 700; color: var(--orange); width: 100px; flex-shrink: 0; }
+  .pace-band .pace { font-weight: 600; color: var(--gold); width: 140px; flex-shrink: 0; }
+  .pace-band .note { color: #aaa; }
+  .pace-band:nth-child(odd) { background: var(--card); }
+  .pace-band:nth-child(even) { background: #1a1a2e; }
+  .pace-band.danger { border-left: 3px solid var(--red); }
+  .pace-band.finish { border-left: 3px solid var(--green); }
+
+  .route-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 30px; margin: 15px 0;
+    display: grid; grid-template-columns: 120px 1fr; gap: 20px; align-items: center;
+  }
+  .route-card:hover { border-color: var(--orange); }
+  .route-stats { text-align: center; }
+  .route-stats .distance { font-size: 2.5rem; font-weight: 900; color: var(--orange); }
+  .route-stats .label { font-size: 0.85rem; color: var(--dim); text-transform: uppercase; letter-spacing: 1px; }
+  .route-details h4 { color: var(--gold); margin-bottom: 8px; font-size: 1.2rem; }
+  .route-details p { font-size: 0.95rem; color: #aaa; }
+  .route-tag {
+    display: inline-block; background: #2a2a3a; color: #ccc;
+    padding: 3px 10px; border-radius: 20px; font-size: 0.8rem; margin: 5px 5px 0 0;
+  }
+  .route-tag.primary { background: var(--orange); color: var(--bg); font-weight: 600; }
+
+  .checklist { margin: 20px 0; }
+  .checklist-item {
+    display: flex; align-items: center; padding: 12px 0;
+    border-bottom: 1px solid #1a1a1a; font-size: 1.05rem; color: #ccc;
+  }
+  .checklist-item .box {
+    width: 24px; height: 24px; border: 2px solid var(--orange);
+    border-radius: 5px; margin-right: 15px; flex-shrink: 0;
+  }
+  .checklist-item.done .box {
+    background: var(--green); border-color: var(--green);
+  }
+  .checklist-item.done { color: var(--dim); text-decoration: line-through; }
+
+  .timeline { position: relative; padding-left: 40px; margin: 20px 0; }
+  .timeline::before {
+    content: ''; position: absolute; left: 15px; top: 0; bottom: 0;
+    width: 3px; background: linear-gradient(180deg, var(--orange), var(--gold), var(--green)); border-radius: 2px;
+  }
+  .timeline-item {
+    position: relative; margin-bottom: 30px; padding: 20px 25px;
+    background: var(--card); border-radius: 10px; border: 1px solid var(--border);
+  }
+  .timeline-item::before {
+    content: ''; position: absolute; left: -33px; top: 25px;
+    width: 13px; height: 13px; background: var(--orange);
+    border-radius: 50%; border: 3px solid var(--bg);
+  }
+  .timeline-item h4 { color: var(--orange); font-size: 1.1rem; margin-bottom: 8px; }
+  .timeline-item p { font-size: 0.95rem; color: #aaa; }
+
+  /* PROGRESS DASHBOARD */
+  .progress-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin: 20px 0; }
+  .week-block {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px; text-align: center; position: relative;
+  }
+  .week-block.active { border-color: var(--orange); box-shadow: 0 0 20px rgba(255,107,53,0.2); }
+  .week-block.completed { border-color: var(--green); }
+  .week-block .week-num { font-size: 0.8rem; color: var(--dim); text-transform: uppercase; letter-spacing: 1px; }
+  .week-block .week-dates { font-size: 0.75rem; color: #555; margin: 5px 0; }
+  .week-block .week-km { font-size: 2rem; font-weight: 900; color: var(--orange); margin: 10px 0; }
+  .week-block .week-target { font-size: 0.8rem; color: var(--dim); }
+  .week-block .week-status {
+    display: inline-block; margin-top: 10px; padding: 3px 10px;
+    border-radius: 20px; font-size: 0.75rem; font-weight: 600;
+  }
+  .week-block .week-status.todo { background: #2a2a3a; color: var(--dim); }
+  .week-block .week-status.current { background: var(--orange); color: var(--bg); }
+  .week-block .week-status.done { background: var(--green); color: var(--bg); }
+
+  .run-log { margin: 20px 0; }
+  .run-entry {
+    display: grid; grid-template-columns: 100px 80px 80px 80px 80px 1fr;
+    padding: 12px 18px; border-bottom: 1px solid #1a1a1a;
+    font-size: 0.95rem; align-items: center;
+  }
+  .run-entry.header {
+    font-weight: 700; color: var(--muted); text-transform: uppercase;
+    font-size: 0.8rem; letter-spacing: 0.5px; border-bottom: 2px solid var(--border);
+  }
+  .run-entry .date { color: var(--gold); font-weight: 600; }
+  .run-entry .dist { color: var(--orange); font-weight: 700; }
+
+  .store-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 25px; margin: 10px 0;
+  }
+  .store-card h4 { color: var(--gold); margin-bottom: 8px; }
+  .store-card .store-type {
+    display: inline-block; background: var(--orange); color: var(--bg);
+    padding: 2px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .slide-number {
+    position: absolute; bottom: 30px; right: 40px;
+    color: #333; font-size: 0.9rem; font-weight: 600;
+  }
+
+  @media (max-width: 900px) {
+    .slide { padding: 40px 25px; }
+    .slide-title h1 { font-size: 2.5rem; }
+    h2 { font-size: 2rem; }
+    .two-col, .three-col { grid-template-columns: 1fr; }
+    .route-card { grid-template-columns: 1fr; }
+    .card-grid { grid-template-columns: 1fr; }
+    .progress-grid { grid-template-columns: repeat(3, 1fr); }
+    .run-entry { grid-template-columns: 80px 60px 60px 60px 60px 1fr; font-size: 0.85rem; }
+    nav { padding: 0 15px; }
+    nav a { font-size: 0.75rem; padding: 18px 6px; }
+  }
+
+  @media print {
+    .slide { page-break-after: always; min-height: auto; padding: 40px; }
+    nav { display: none; }
+    body { background: white; color: #111; }
+  }
+
+  html { scroll-behavior: smooth; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="logo">BG MARATHON 2026</span>
+  <a href="#dashboard">Dashboard</a>
+  <a href="#plan">Plan</a>
+  <a href="#routes">Routes</a>
+  <a href="#race">Race Day</a>
+  <a href="#nutrition">Nutrition</a>
+  <a href="#gear">Gear</a>
+  <a href="#recovery">Recovery</a>
+  <a href="#unknowns">Tips</a>
+  <span class="countdown" id="countdown"></span>
+</nav>
+
+<div class="page">
+
+<!-- SLIDE 1: Title -->
+<div class="slide slide-title" id="top">
+  <h1>BELGRADE MARATHON</h1>
+  <div class="subtitle">42.195 km — 5-Week Training Plan</div>
+  <div class="meta">
+    <strong>Race:</strong> 39th Belgrade Marathon &nbsp;|&nbsp; <strong>Date:</strong> Sunday, April 19, 2026 — 8:00 AM<br>
+    <strong>Start:</strong> Republic Square (Trg Republike) &nbsp;|&nbsp; <strong>Finish:</strong> Hotel Moskva, Terazije<br>
+    <strong>Base:</strong> Banovo Brdo, Belgrade &nbsp;|&nbsp; <strong>Watch:</strong> Apple Watch &nbsp;|&nbsp; <strong>Race Shoes:</strong> Adidas Adios Pro 4
+  </div>
+</div>
+
+<!-- SLIDE 2: Progress Dashboard -->
+<div class="slide" id="dashboard">
+  <h2><span class="number">&#9733;</span> Progress Dashboard</h2>
+
+  <!-- Week blocks -->
+  <div class="progress-grid" id="weekBlocks">
+    <!-- Filled by JS -->
+  </div>
+
+  <!-- Run Log -->
+  <h3>Run Log</h3>
+  <div class="run-log">
+    <div class="run-entry header">
+      <span>Date</span><span>Dist</span><span>Time</span><span>Pace</span><span>HR</span><span>Notes</span>
+    </div>
+    <div id="runLog">
+      <!-- Filled by JS or manually updated -->
+    </div>
+  </div>
+
+  <div class="info">
+    <p><strong>How to update:</strong> After each run, share your Strava activity link or your stats (distance, time, avg pace, avg HR) and this dashboard will be updated.</p>
+  </div>
+</div>
+
+<!-- SLIDE 3: Honest Assessment -->
+<div class="slide slide-compact">
+  <h2><span class="number">!</span> Honest Assessment</h2>
+  <div class="two-col">
+    <div>
+      <div class="three-col">
+        <div class="big-stat"><div class="number-val">5</div><div class="label">Weeks to Race</div></div>
+        <div class="big-stat"><div class="number-val">12+</div><div class="label">Months Off</div></div>
+        <div class="big-stat"><div class="number-val">42.2</div><div class="label">Kilometers</div></div>
+      </div>
+    </div>
+    <div>
+      <h3>What's In Your Favor</h3>
+      <ul>
+        <li><strong>Aerobic memory</strong> — sub-2h half marathon 1.5 years ago</li>
+        <li><strong>Mental toughness</strong> — did it with 4–5 training runs</li>
+        <li><strong>Location</strong> — Banovo Brdo: 10 min to Ada + Košutnjak</li>
+        <li><strong>Apple Watch</strong> — GPS + HR tracking covered</li>
+      </ul>
+    </div>
+  </div>
+  <div class="warning">
+    <p><strong>This is a survival plan, not a performance plan.</strong> Target finish: <strong>4:45 – 5:15</strong> (pace: 6:45–7:30 /km with walk breaks). The goal is to cross the line healthy.</p>
+  </div>
+</div>
+
+<!-- SLIDE 4: Course Profile -->
+<div class="slide slide-compact">
+  <h2><span class="number">&#9873;</span> Course Profile</h2>
+  <div class="pace-band">
+    <span class="km">Km 0–3</span>
+    <span class="pace">↓ 60m downhill</span>
+    <span class="note">Bulevar kralja Aleksandra to the river. DON'T go fast — gravity will tempt you.</span>
+  </div>
+  <div class="pace-band">
+    <span class="km">Km 3–39</span>
+    <span class="pace">↔ FLAT</span>
+    <span class="note">Two laps through New Belgrade. Flat, long straights, bridge crossings (windy!).</span>
+  </div>
+  <div class="pace-band danger">
+    <span class="km">Km 39–42</span>
+    <span class="pace">↑ 50m uphill</span>
+    <span class="note">Climb back to old city. Finish at Hotel Moskva is uphill.</span>
+  </div>
+  <div class="card-grid" style="margin-top:20px">
+    <div class="card"><h4>Bridges</h4><p>Expect wind. Tuck behind other runners to draft.</p></div>
+    <div class="card"><h4>New Belgrade</h4><p>Flat but exposed — no shade. Cap + sunscreen if sunny. Thinner crowd support.</p></div>
+    <div class="card"><h4>The Finish</h4><p>50m climb over 2km. Crowd support is electric. Save something for this.</p></div>
+  </div>
+</div>
+
+<!-- SLIDE 5: 5-Week Plan Overview -->
+<div class="slide" id="plan">
+  <h2><span class="number">&#9201;</span> 5-Week Plan</h2>
+  <table>
+    <thead><tr><th>Week</th><th>Dates</th><th>Long Run</th><th>Volume</th><th>Focus</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1</strong></td><td>Mar 15–21</td><td>—</td><td>~18km</td><td>Rebuild. First runs. Buy gear.</td></tr>
+      <tr><td><strong>2</strong></td><td>Mar 22–28</td><td>14km</td><td>~33km</td><td>First long run at Ada. Test nutrition.</td></tr>
+      <tr><td><strong>3</strong></td><td>Mar 29–Apr 4</td><td>21km</td><td>~40km</td><td>Half marathon distance. Practice gels.</td></tr>
+      <tr><td><strong>4</strong></td><td>Apr 5–11</td><td>28–30km</td><td>~41km</td><td style="color:var(--orange);font-weight:700;">PEAK. Full race-day rehearsal.</td></tr>
+      <tr><td><strong>5</strong></td><td>Apr 12–19</td><td>42.195km</td><td>~20km + race</td><td style="color:var(--green);font-weight:700;">Taper → RACE DAY</td></tr>
+    </tbody>
+  </table>
+  <div class="warning">
+    <p><strong>The Week 4 long run (28–30km) is the most important session.</strong> Race-day dress rehearsal: same gels, same pacing, same run/walk ratio. Everything else builds to it and tapers from it.</p>
+  </div>
+</div>
+
+<!-- SLIDE 6-10: Weekly Details -->
+<div class="slide slide-compact">
+  <h2><span class="number">1</span> Week 1: Rebuild (Mar 15–21)</h2>
+  <table>
+    <thead><tr><th>Day</th><th>Workout</th><th>Route</th><th>Details</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Sat 15</strong></td><td>Easy run/walk 5km</td><td>Košutnjak Trim staza + trails</td><td>Run 4 min / walk 1 min. Easy 7:00+/km.</td></tr>
+      <tr><td><strong>Sun 16</strong></td><td>Rest / walk</td><td>—</td><td>30 min walk. Foam roll.</td></tr>
+      <tr><td><strong>Mon 17</strong></td><td>Easy run 6km</td><td>Košutnjak forest trails</td><td>Conversational pace. Soft surface.</td></tr>
+      <tr><td><strong>Tue 18</strong></td><td>Cross-train + strength</td><td>—</td><td>30–40 min cycling/swimming. Strength circuit.</td></tr>
+      <tr><td><strong>Wed 19</strong></td><td>Easy run 7km</td><td>Banovo Brdo → Topčider → back</td><td>Explore the Topčider route.</td></tr>
+      <tr><td><strong>Thu 20</strong></td><td>Rest</td><td>—</td><td>Foam roll, stretch, strength circuit.</td></tr>
+      <tr><td><strong>Fri 21</strong></td><td>Rest</td><td>—</td><td>Prepare for long run.</td></tr>
+    </tbody>
+  </table>
+  <div class="info"><p><strong>~18km</strong> — Get moving again without injury. Soft Košutnjak surface protects deconditioned joints.</p></div>
+</div>
+
+<div class="slide slide-compact">
+  <h2><span class="number">2</span> Week 2: First Long Run (Mar 22–28)</h2>
+  <table>
+    <thead><tr><th>Day</th><th>Workout</th><th>Route</th><th>Details</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Sat 22</strong></td><td style="color:var(--orange);font-weight:700;">Long run 14km</td><td>Ada (1 loop) + Sava extension</td><td>Run 8/walk 2. Water + 1 gel at km 10.</td></tr>
+      <tr><td><strong>Sun 23</strong></td><td>Rest</td><td>—</td><td>Foam roll. How does the body feel?</td></tr>
+      <tr><td><strong>Mon 24</strong></td><td>Easy run 6km</td><td>Košutnjak forest trails</td><td>Recovery pace. Soft surface.</td></tr>
+      <tr><td><strong>Tue 25</strong></td><td>Cross-train + strength</td><td>—</td><td>40 min cycling/swimming.</td></tr>
+      <tr><td><strong>Wed 26</strong></td><td>Easy run 8km</td><td>Topčider → Sava embankment → back</td><td>Medium route.</td></tr>
+      <tr><td><strong>Thu 27</strong></td><td>Rest</td><td>—</td><td>Foam roll, stretch.</td></tr>
+      <tr><td><strong>Fri 28</strong></td><td>Easy run 5km</td><td>Košutnjak — in Adios Pro 4</td><td>1st break-in run in race shoes.</td></tr>
+    </tbody>
+  </table>
+  <div class="info"><p><strong>~33km</strong> — First real test. The 14km tells you where your body is.</p></div>
+</div>
+
+<div class="slide slide-compact">
+  <h2><span class="number">3</span> Week 3: Half Marathon (Mar 29–Apr 4)</h2>
+  <table>
+    <thead><tr><th>Day</th><th>Workout</th><th>Route</th><th>Details</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Sat 29</strong></td><td style="color:var(--orange);font-weight:700;">Long run 21km</td><td>Ada (1 loop) + Sava embankment + Topčider → home</td><td>Run 10/walk 2. 2 gels (km 8 + km 16).</td></tr>
+      <tr><td><strong>Sun 30</strong></td><td>Rest</td><td>—</td><td>Complete rest. Legs will be sore.</td></tr>
+      <tr><td><strong>Mon 31</strong></td><td>Easy run 5km</td><td>Košutnjak trails</td><td>VERY easy recovery jog.</td></tr>
+      <tr><td><strong>Tue 1</strong></td><td>Cross-train + light strength</td><td>—</td><td>30 min cycling. Lighter strength.</td></tr>
+      <tr><td><strong>Wed 2</strong></td><td>Easy run 8km</td><td>Ada single loop</td><td>Flat, easy effort.</td></tr>
+      <tr><td><strong>Thu 3</strong></td><td>Rest</td><td>—</td><td>Foam roll, stretch.</td></tr>
+      <tr><td><strong>Fri 4</strong></td><td>Easy run 6km</td><td>Košutnjak — in Adios Pro 4</td><td>2nd break-in run in race shoes.</td></tr>
+    </tbody>
+  </table>
+  <div class="success"><p><strong>~40km</strong> — Half marathon done! You've done this before.</p></div>
+</div>
+
+<div class="slide slide-compact">
+  <h2><span class="number">4</span> Week 4: Peak (Apr 5–11)</h2>
+  <table>
+    <thead><tr><th>Day</th><th>Workout</th><th>Route</th><th>Details</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Sat 5</strong></td><td style="color:var(--orange);font-weight:700;">Long run 28–30km ★</td><td>Ada → bridge → New Belgrade → Zemun direction → back</td><td>Run 10/walk 2. Belt: 3–4 gels. Full race rehearsal!</td></tr>
+      <tr><td><strong>Sun 6</strong></td><td>Rest</td><td>—</td><td>Very sore. Walk for blood flow.</td></tr>
+      <tr><td><strong>Mon 7</strong></td><td>Rest</td><td>—</td><td>Foam roll gently.</td></tr>
+      <tr><td><strong>Tue 8</strong></td><td>Easy run 5km</td><td>Košutnjak trails</td><td>Test the legs.</td></tr>
+      <tr><td><strong>Wed 9</strong></td><td>Cross-train</td><td>—</td><td>30 min easy cycling.</td></tr>
+      <tr><td><strong>Thu 10</strong></td><td>Easy run 6km</td><td>Ada — in Adios Pro 4</td><td>3rd break-in. Final shoe test.</td></tr>
+      <tr><td><strong>Fri 11</strong></td><td>Rest</td><td>—</td><td></td></tr>
+    </tbody>
+  </table>
+  <div class="warning"><p><strong>The 28–30km is everything.</strong> Practice EXACT race-day nutrition. Same gels, timing, hydration. If something fails, you have 2 weeks to fix it.</p></div>
+</div>
+
+<div class="slide slide-compact">
+  <h2><span class="number">5</span> Week 5: Taper → Race (Apr 12–19)</h2>
+  <table>
+    <thead><tr><th>Day</th><th>Workout</th><th>Route</th><th>Details</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Sat 12</strong></td><td>Easy 8km</td><td>Ada single loop</td><td>Last real run. Relaxed.</td></tr>
+      <tr><td><strong>Sun 13</strong></td><td>Easy 5km + strides</td><td>Košutnjak Trim staza</td><td>4x 20-sec pickups.</td></tr>
+      <tr><td><strong>Mon 14</strong></td><td>Rest</td><td>—</td><td></td></tr>
+      <tr><td><strong>Tue 15</strong></td><td>Easy jog 4km</td><td>Banovo Brdo neighborhood</td><td>Very light. Stay loose.</td></tr>
+      <tr><td><strong>Wed 16</strong></td><td>Rest + Expo</td><td>—</td><td style="color:var(--gold);">Pick up bib at Expo.</td></tr>
+      <tr><td><strong>Thu 17</strong></td><td>Shakeout 3km</td><td>Košutnjak in Adios Pro 4</td><td>10 min. Very easy.</td></tr>
+      <tr><td><strong>Fri 18</strong></td><td>Rest</td><td>—</td><td style="color:var(--gold);">Lay out gear. Pin bib. Charge watch. Bed by 9 PM.</td></tr>
+      <tr><td style="color:var(--green);font-weight:900;font-size:1.2rem;">Sun 19</td><td style="color:var(--green);font-weight:900;font-size:1.2rem;">RACE DAY</td><td style="color:var(--green);">Trg Republike → Hotel Moskva</td><td style="color:var(--green);font-weight:700;">42.195 km</td></tr>
+    </tbody>
+  </table>
+  <div class="success"><p><strong>You'll feel restless and sluggish. This is normal.</strong> You're NOT losing fitness. Trust the taper.</p></div>
+</div>
+
+<!-- SLIDE 11: Routes -->
+<div class="slide" id="routes">
+  <h2><span class="number">&#9782;</span> Training Routes from Banovo Brdo</h2>
+  <p style="color:var(--muted);margin-bottom:25px;">All linear or point-to-point. No repetitive laps. Max 1 Ada loop.</p>
+
+  <div class="route-card">
+    <div class="route-stats"><div class="distance">5–7</div><div class="label">km</div></div>
+    <div class="route-details">
+      <h4>Route 1: Košutnjak Forest</h4>
+      <p>Home → Košutnjak (~1.5km) → forest trails + Trim staza (2–4km) → home. Hilly, soft ground, shaded.</p>
+      <span class="route-tag primary">Easy/Recovery</span>
+      <span class="route-tag">Soft Surface</span>
+      <span class="route-tag">Shaded</span>
+    </div>
+  </div>
+
+  <div class="route-card">
+    <div class="route-stats"><div class="distance">11</div><div class="label">km</div></div>
+    <div class="route-details">
+      <h4>Route 2: Ada Ciganlija Single Loop</h4>
+      <p>Home → Ada (~1.5km) → 1 lake loop (8km) → home (~1.5km). Flat, paved, water fountains.</p>
+      <span class="route-tag primary">Medium</span>
+      <span class="route-tag">Flat</span>
+      <span class="route-tag">Paved</span>
+    </div>
+  </div>
+
+  <div class="route-card">
+    <div class="route-stats"><div class="distance">10–12</div><div class="label">km</div></div>
+    <div class="route-details">
+      <h4>Route 3: Topčider → Sava Out-and-Back</h4>
+      <p>Home → Topčider Park (~3km) → Sava river (~2km) → embankment → turn back. Park trails + flat river.</p>
+      <span class="route-tag primary">Medium</span>
+      <span class="route-tag">Varied Terrain</span>
+      <span class="route-tag">Scenic</span>
+    </div>
+  </div>
+
+  <div class="route-card">
+    <div class="route-stats"><div class="distance">14</div><div class="label">km</div></div>
+    <div class="route-details">
+      <h4>Route 4: Ada + Sava Extension</h4>
+      <p>Home → Ada (1 loop) → continue along Sava embankment (~1.5km) → turn back → home. One Ada lap with a river extension.</p>
+      <span class="route-tag primary">Week 2 Long Run</span>
+      <span class="route-tag">Flat</span>
+    </div>
+  </div>
+
+  <div class="route-card">
+    <div class="route-stats"><div class="distance">21</div><div class="label">km</div></div>
+    <div class="route-details">
+      <h4>Route 5: Ada + Sava + Topčider Grand Tour</h4>
+      <p>Home → Ada (1 loop) → Sava embankment south (~3km) → back through Topčider area → home. Or: Topčider → Sava embankment (~5km each way) → Košutnjak → home.</p>
+      <span class="route-tag primary">Week 3 Long Run</span>
+      <span class="route-tag">Half Marathon</span>
+    </div>
+  </div>
+
+  <div class="route-card">
+    <div class="route-stats"><div class="distance">28–30</div><div class="label">km</div></div>
+    <div class="route-details">
+      <h4>Route 6: The Big One — Race Rehearsal</h4>
+      <p>Home → Ada (1 loop) → cross Gazela/Ada bridge → New Belgrade Sava embankment toward Zemun (~8–10km) → turn back → bridge → home. Simulates the flat marathon course.</p>
+      <span class="route-tag primary">Week 4 Peak</span>
+      <span class="route-tag">Race Simulation</span>
+      <span class="route-tag">Flat + Exposed</span>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 12: Race Day Strategy -->
+<div class="slide" id="race">
+  <h2><span class="number">&#9888;</span> Race Day Pacing</h2>
+  <h3>Run/Walk Method: Run 10 min / Walk 1–2 min</h3>
+  <div class="pace-band"><span class="km">Km 0–3</span><span class="pace">6:45–7:00</span><span class="note">DOWNHILL. HOLD BACK. Let people pass.</span></div>
+  <div class="pace-band"><span class="km">Km 3–10</span><span class="pace">6:30–6:45</span><span class="note">Settle in. First gel at km 5.</span></div>
+  <div class="pace-band"><span class="km">Km 10–21</span><span class="pace">6:30–6:45</span><span class="note">Cruise. Gels on schedule. Drink at every station.</span></div>
+  <div class="pace-band"><span class="km">Km 21–30</span><span class="pace">6:45–7:00</span><span class="note">Stay disciplined. Walk breaks saving you.</span></div>
+  <div class="pace-band danger"><span class="km">Km 30–35</span><span class="pace">7:00–7:30</span><span class="note"><strong>THE WALL.</strong> Keep eating. 1 km at a time. Mantra.</span></div>
+  <div class="pace-band"><span class="km">Km 35–39</span><span class="pace">7:00–8:00</span><span class="note">Survive. Walk more if needed. No shame.</span></div>
+  <div class="pace-band danger"><span class="km">Km 39–42</span><span class="pace">Uphill</span><span class="note">50m climb. Walk/run. The crowd carries you.</span></div>
+  <div class="pace-band finish"><span class="km">FINISH</span><span class="pace">42.195 km</span><span class="note" style="color:var(--green);font-weight:700;">Hotel Moskva. You are a marathoner.</span></div>
+  <div class="info"><p><strong>Walk through EVERY aid station.</strong> Drink properly. Carry your own gels.</p></div>
+</div>
+
+<!-- SLIDE 13: Nutrition -->
+<div class="slide slide-compact" id="nutrition">
+  <h2><span class="number">&#9749;</span> Race Day Nutrition</h2>
+  <div class="two-col">
+    <div>
+      <h3>Race Morning (5:00 AM)</h3>
+      <ul>
+        <li>Toast + jam/honey, banana, coffee</li>
+        <li>500ml water</li>
+        <li><strong>Nothing new. Nothing experimental.</strong></li>
+      </ul>
+      <h3>Night Before</h3>
+      <ul><li>Pasta/rice with light sauce. No fiber, no spicy, no alcohol. Eat by 7–8 PM.</li></ul>
+      <h3>Carb Loading (Apr 16–18)</h3>
+      <ul><li>8–10g carbs/kg. More pasta, rice, bread, potatoes.</li></ul>
+    </div>
+    <div>
+      <h3>Gel Schedule</h3>
+      <table>
+        <thead><tr><th>Km</th><th>What</th></tr></thead>
+        <tbody>
+          <tr><td>5</td><td>Gel #1 + water</td></tr>
+          <tr><td>12</td><td>Gel #2 + water</td></tr>
+          <tr><td>18</td><td>Gel #3 + electrolyte</td></tr>
+          <tr><td>24</td><td>Gel #4 + water</td></tr>
+          <tr><td>30</td><td>Gel #5 + electrolyte</td></tr>
+          <tr><td>35</td><td>Gel #6 + water</td></tr>
+          <tr><td>39</td><td>Gel #7 (if stomach OK)</td></tr>
+        </tbody>
+      </table>
+      <div class="warning"><p>Practice this EXACT schedule on your 28–30km run.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 14: Gear & Where to Buy -->
+<div class="slide" id="gear">
+  <h2><span class="number">&#128095;</span> Gear & Where to Buy</h2>
+
+  <h3>Belgrade Running Stores</h3>
+  <div class="card-grid">
+    <div class="store-card">
+      <span class="store-type">★ #1 Recommended</span>
+      <h4>Run'n More</h4>
+      <p>Belgrade's only specialized running store. Expert fitting, running-specific gear, gels, accessories, all major brands. <strong>Go here first for shoes + fitting.</strong></p>
+      <p style="color:var(--gold);margin-top:8px;">Stari Grad, Belgrade</p>
+    </div>
+    <div class="store-card">
+      <span class="store-type">Good Alternative</span>
+      <h4>Intersport</h4>
+      <p>Nike, Adidas, ASICS, HOKA, Brooks, Salomon. Wide selection, competitive pricing. Multiple locations.</p>
+    </div>
+    <div class="store-card">
+      <span class="store-type">Budget Friendly</span>
+      <h4>Decathlon</h4>
+      <p>Good for: foam rollers, budget gels, belts, electrolytes, basic running clothes. Great prices.</p>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-top:30px;">
+    <div>
+      <h3>Shoes</h3>
+      <div class="warning"><p><strong>Adios Pro 4 = RACE DAY ONLY.</strong> Carbon super shoe. 3 break-in runs before race (in the plan). You need a daily trainer — get fitted at Run'n More.</p></div>
+      <table>
+        <thead><tr><th>Daily Trainer</th><th>~EUR</th></tr></thead>
+        <tbody>
+          <tr><td>Adidas Boston 12</td><td>€130</td></tr>
+          <tr><td>Nike Pegasus 41</td><td>€130</td></tr>
+          <tr><td>ASICS Novablast 4</td><td>€140</td></tr>
+          <tr><td>ASICS Gel-Nimbus 26</td><td>€160</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Apple Watch — Is It Enough?</h3>
+      <div class="success">
+        <p><strong>Yes.</strong> GPS is accurate for training. Wrist HR works well for zone running. Use the Workout app with Outdoor Run. Enable heart rate zones in the workout view. Pair with Strava for logging. Save €250+ on a Garmin.</p>
+      </div>
+      <ul>
+        <li><strong>Tip:</strong> Calibrate it — do a 20min run on a flat, open area with good GPS signal</li>
+        <li><strong>Tip:</strong> Wear it snug (1 finger width above wrist bone) for best HR</li>
+        <li><strong>Race day:</strong> Enable Power Save mode to ensure battery lasts 5+ hours</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Shopping List</h3>
+      <table>
+        <thead><tr><th>Item</th><th>Where</th><th>EUR</th></tr></thead>
+        <tbody>
+          <tr><td>Daily training shoe (fitted)</td><td>Run'n More</td><td>120–160</td></tr>
+          <tr><td>Running socks x3 (NO cotton)</td><td>Run'n More</td><td>30–45</td></tr>
+          <tr><td>Anti-chafe balm</td><td>Run'n More / Apoteka</td><td>10–15</td></tr>
+          <tr><td>Energy gels x10</td><td>Run'n More / Decathlon</td><td>25–40</td></tr>
+          <tr><td>Running belt</td><td>Run'n More / Decathlon</td><td>20–35</td></tr>
+          <tr><td>Foam roller</td><td>Decathlon / Intersport</td><td>20–30</td></tr>
+          <tr><td>Running shorts (lined)</td><td>Run'n More / Intersport</td><td>30–50</td></tr>
+          <tr><td>Singlet/tech shirt</td><td>Run'n More / Intersport</td><td>20–35</td></tr>
+          <tr><td>Electrolyte tablets</td><td>Run'n More / Apoteka</td><td>10–15</td></tr>
+          <tr><td>Nipple tape</td><td>Any apoteka (medical tape)</td><td>5–10</td></tr>
+          <tr><td>Arm sleeves</td><td>Run'n More</td><td>15–20</td></tr>
+          <tr><td>Sunscreen (sport)</td><td>Apoteka</td><td>10</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:15px;font-size:1.1rem;color:var(--orange);font-weight:700;">Total: ~€315–455 (no watch needed)</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 15: Recovery -->
+<div class="slide slide-compact" id="recovery">
+  <h2><span class="number">&#128164;</span> Recovery</h2>
+  <div class="two-col">
+    <div>
+      <h3>After EVERY Run</h3>
+      <div class="timeline">
+        <div class="timeline-item"><h4>Walk 5 min</h4><p>Cool down gradually.</p></div>
+        <div class="timeline-item"><h4>Drink 500ml water</h4><p>Immediately.</p></div>
+        <div class="timeline-item"><h4>Foam roll (10 min)</h4><p>Calves, quads, IT band, glutes.</p></div>
+        <div class="timeline-item"><h4>Stretch (10 min)</h4><p>Hamstrings, hip flexors, calves.</p></div>
+        <div class="timeline-item"><h4>Eat within 30–45 min</h4><p>Carbs + protein.</p></div>
+      </div>
+    </div>
+    <div>
+      <h3>Strength Circuit (2x/week, Weeks 1–3)</h3>
+      <table>
+        <thead><tr><th>Exercise</th><th>Reps</th></tr></thead>
+        <tbody>
+          <tr><td>Single-leg glute bridges</td><td>12 each</td></tr>
+          <tr><td>Calf raises (slow)</td><td>15 each</td></tr>
+          <tr><td>Side-lying leg raises</td><td>15 each</td></tr>
+          <tr><td>Bodyweight squats</td><td>15</td></tr>
+          <tr><td>Plank</td><td>30–45 sec</td></tr>
+          <tr><td>Dead bug</td><td>8 each</td></tr>
+        </tbody>
+      </table>
+      <div class="warning"><p><strong>Sleep 8+ hours. Non-negotiable.</strong> Your most powerful recovery tool.</p></div>
+      <h3>STOP Running If:</h3>
+      <ul>
+        <li>Sharp pain changing your gait</li>
+        <li>Pain that worsens as you run</li>
+        <li>Any swelling</li>
+        <li>Pain lasting &gt;24h post-run</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 16: Race Morning Checklist -->
+<div class="slide slide-compact">
+  <h2><span class="number">&#10003;</span> Race Morning — April 19</h2>
+  <div class="two-col">
+    <div>
+      <h3>Before Leaving Banovo Brdo (5:00 AM)</h3>
+      <div class="checklist">
+        <div class="checklist-item"><span class="box"></span>Wake at 5:00 AM</div>
+        <div class="checklist-item"><span class="box"></span>Breakfast: toast+jam, banana, coffee, 500ml water</div>
+        <div class="checklist-item"><span class="box"></span>Body Glide: nipples, thighs, underarms, feet</div>
+        <div class="checklist-item"><span class="box"></span>Tape nipples</div>
+        <div class="checklist-item"><span class="box"></span>Race outfit ON (nothing new)</div>
+        <div class="checklist-item"><span class="box"></span>Adios Pro 4 laced properly</div>
+        <div class="checklist-item"><span class="box"></span>Belt loaded: 6–7 gels + phone</div>
+        <div class="checklist-item"><span class="box"></span>Throwaway jacket for start</div>
+        <div class="checklist-item"><span class="box"></span>Apple Watch charged + workout ready</div>
+      </div>
+    </div>
+    <div>
+      <h3>At Republic Square (by 7:00 AM)</h3>
+      <div class="checklist">
+        <div class="checklist-item"><span class="box"></span>Taxi from Banovo Brdo (leave 6:15 AM)</div>
+        <div class="checklist-item"><span class="box"></span>Use toilet. Then again.</div>
+        <div class="checklist-item"><span class="box"></span>Bag drop</div>
+        <div class="checklist-item"><span class="box"></span>5 min warmup jog + leg swings</div>
+        <div class="checklist-item"><span class="box"></span>Start at BACK of pack</div>
+        <div class="checklist-item"><span class="box"></span>Deep breath. Trust the plan.</div>
+      </div>
+      <h3>After Finish</h3>
+      <ul>
+        <li>WALK — don't sit immediately</li>
+        <li>Collect medal, blanket, food</li>
+        <li>Meet family at pre-arranged spot</li>
+        <li>Arrange ride home (won't want to walk)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 17: Unknown Unknowns -->
+<div class="slide" id="unknowns">
+  <h2><span class="number">?</span> The Unknown Unknowns</h2>
+  <div class="card-grid">
+    <div class="card"><h4>The Wall (Km 30–35)</h4><p>Glycogen depletes. Brain screams STOP. Normal. Keep eating gels. 1km chunks. Have a mantra.</p></div>
+    <div class="card"><h4>Bathroom Issues</h4><p>Runner's stomach is common. No fiber 48h before. If you need to go — GO.</p></div>
+    <div class="card"><h4>Chafing & Nipple Bleeding</h4><p>Body Glide everywhere. Tape nipples. Test on long runs.</p></div>
+    <div class="card"><h4>Pacing Discipline</h4><p>#1 mistake: too fast in km 0–10. 6:00 instead of 6:45 early = death at km 32.</p></div>
+    <div class="card"><h4>Toenails</h4><p>May lose them. Trim SHORT. Cut Wednesday before race.</p></div>
+    <div class="card"><h4>Nothing New on Race Day</h4><p>Not shoes, socks, shorts, gels, or breakfast. Everything tested.</p></div>
+    <div class="card"><h4>Mental Game (50%)</h4><p>Have a "why." Dedicate km to people you love. "One more km" is all that matters at km 33.</p></div>
+    <div class="card"><h4>Weather</h4><p>April 19: typically 8–18°C. Dress for km 20, not km 0. Check forecast from Apr 16.</p></div>
+    <div class="card"><h4>Post-Race</h4><p>Shuffle-walk 2–3 days. 7–10 days off. Immune system suppressed. Rest.</p></div>
+    <div class="card"><h4>Walking Is OK</h4><p>5:30 with lots of walking = same medal, same 42.195km.</p></div>
+    <div class="card"><h4>No Alcohol</h4><p>Destroys recovery. Zero from Wednesday before race. Limit all 5 weeks.</p></div>
+    <div class="card"><h4>Sleep &gt; Everything</h4><p>Night-before sleep will be bad — OK. Thursday night matters more.</p></div>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<script>
+  // Countdown
+  function updateCountdown() {
+    const race = new Date('2026-04-19T08:00:00+02:00');
+    const now = new Date();
+    const diff = race - now;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const el = document.getElementById('countdown');
+    if (days > 0) {
+      el.innerHTML = '<strong>' + days + '</strong> days to race';
+    } else if (days === 0) {
+      el.innerHTML = '<strong style="color:#4aff6b">RACE DAY!</strong>';
+    } else {
+      el.innerHTML = '<strong style="color:#4aff6b">RACE COMPLETE</strong>';
+    }
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 60000);
+
+  // Week data
+  const weeks = [
+    { num: 1, dates: 'Mar 15–21', targetKm: 18, actualKm: 0, longRun: '—', status: 'current', runs: [] },
+    { num: 2, dates: 'Mar 22–28', targetKm: 33, actualKm: 0, longRun: '14km', status: 'todo', runs: [] },
+    { num: 3, dates: 'Mar 29–Apr 4', targetKm: 40, actualKm: 0, longRun: '21km', status: 'todo', runs: [] },
+    { num: 4, dates: 'Apr 5–11', targetKm: 41, actualKm: 0, longRun: '28–30km', status: 'todo', runs: [] },
+    { num: 5, dates: 'Apr 12–19', targetKm: 20, actualKm: 0, longRun: 'RACE', status: 'todo', runs: [] },
+  ];
+
+  // Runs data — UPDATE THIS AS RUNS ARE COMPLETED
+  const runs = [
+    // { date: '2026-03-15', distance: 5.0, time: '35:00', pace: '7:00', hr: 145, notes: 'First run back! Run/walk at Košutnjak.', week: 1 },
+  ];
+
+  // Render week blocks
+  function renderWeeks() {
+    const container = document.getElementById('weekBlocks');
+    container.innerHTML = '';
+    weeks.forEach(w => {
+      // Sum actual km from runs
+      const weekRuns = runs.filter(r => r.week === w.num);
+      w.actualKm = weekRuns.reduce((sum, r) => sum + r.distance, 0);
+      const pct = Math.min(100, Math.round((w.actualKm / w.targetKm) * 100));
+
+      const div = document.createElement('div');
+      div.className = 'week-block' + (w.status === 'current' ? ' active' : '') + (w.status === 'done' ? ' completed' : '');
+      div.innerHTML = `
+        <div class="week-num">Week ${w.num}</div>
+        <div class="week-dates">${w.dates}</div>
+        <div class="week-km">${w.actualKm.toFixed(1)}</div>
+        <div class="week-target">/ ${w.targetKm}km target</div>
+        <div style="background:#2a2a3a;border-radius:4px;height:6px;margin:10px 0;">
+          <div style="background:${w.status==='done'?'#4aff6b':'#ff6b35'};width:${pct}%;height:6px;border-radius:4px;transition:width 0.5s;"></div>
+        </div>
+        <div class="week-status ${w.status === 'current' ? 'current' : w.status === 'done' ? 'done' : 'todo'}">
+          ${w.status === 'current' ? 'IN PROGRESS' : w.status === 'done' ? 'COMPLETED' : w.longRun}
+        </div>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  // Render run log
+  function renderRuns() {
+    const container = document.getElementById('runLog');
+    if (runs.length === 0) {
+      container.innerHTML = '<div style="padding:20px;color:#555;text-align:center;">No runs logged yet. Share your Strava data to start tracking!</div>';
+      return;
+    }
+    container.innerHTML = '';
+    runs.forEach(r => {
+      const div = document.createElement('div');
+      div.className = 'run-entry';
+      div.innerHTML = `
+        <span class="date">${r.date.slice(5)}</span>
+        <span class="dist">${r.distance.toFixed(1)}km</span>
+        <span>${r.time}</span>
+        <span>${r.pace}/km</span>
+        <span>${r.hr || '—'} bpm</span>
+        <span style="color:#aaa">${r.notes}</span>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  renderWeeks();
+  renderRuns();
+
+  // Nav active state
+  document.querySelectorAll('nav a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.querySelectorAll('nav a').forEach(x => x.classList.remove('active'));
+      a.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
