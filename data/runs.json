@@ -1,0 +1,142 @@
+{
+  "athlete": {
+    "name": "Nebojsa",
+    "race": "39th Belgrade Marathon",
+    "race_date": "2026-04-19",
+    "race_distance_km": 42.195,
+    "target_finish": "4:45:00 - 5:15:00",
+    "base": "Banovo Brdo, Belgrade"
+  },
+  "plan": {
+    "total_weeks": 5,
+    "start_date": "2026-03-15",
+    "end_date": "2026-04-19"
+  },
+  "runs": [
+    {
+      "date": "2026-03-14",
+      "distance": 5.03,
+      "time": "30:01",
+      "pace": "5:58",
+      "hr": 145,
+      "notes": "Night Run",
+      "week": 1
+    }
+  ],
+  "weekly_summary": [
+    {
+      "week": 1,
+      "dates": "2026-03-14 to 2026-03-21",
+      "target_km": 18,
+      "actual_km": 5.03,
+      "num_runs": 1,
+      "long_run_target": "—"
+    },
+    {
+      "week": 2,
+      "dates": "2026-03-22 to 2026-03-28",
+      "target_km": 33,
+      "actual_km": 0,
+      "num_runs": 0,
+      "long_run_target": "14km"
+    },
+    {
+      "week": 3,
+      "dates": "2026-03-29 to 2026-04-04",
+      "target_km": 40,
+      "actual_km": 0,
+      "num_runs": 0,
+      "long_run_target": "21km"
+    },
+    {
+      "week": 4,
+      "dates": "2026-04-05 to 2026-04-11",
+      "target_km": 41,
+      "actual_km": 0,
+      "num_runs": 0,
+      "long_run_target": "28–30km"
+    },
+    {
+      "week": 5,
+      "dates": "2026-04-12 to 2026-04-19",
+      "target_km": 20,
+      "actual_km": 0,
+      "num_runs": 0,
+      "long_run_target": "RACE"
+    }
+  ],
+  "gear_checklist": {
+    "daily_trainer": {
+      "bought": false,
+      "item": "Daily training shoe (fitted)",
+      "priority": "must",
+      "store": "Run'n More, Belgrade"
+    },
+    "running_socks": {
+      "bought": false,
+      "item": "Running socks x3 (no cotton)",
+      "priority": "must",
+      "store": "Run'n More / Decathlon"
+    },
+    "anti_chafe": {
+      "bought": false,
+      "item": "Anti-chafe balm (Body Glide/Vaseline)",
+      "priority": "must",
+      "store": "Run'n More / Apoteka"
+    },
+    "gels": {
+      "bought": false,
+      "item": "Energy gels x10",
+      "priority": "must",
+      "store": "Run'n More / Decathlon"
+    },
+    "running_belt": {
+      "bought": false,
+      "item": "Running belt (Flip Belt)",
+      "priority": "must",
+      "store": "Run'n More"
+    },
+    "foam_roller": {
+      "bought": false,
+      "item": "Foam roller",
+      "priority": "must",
+      "store": "Decathlon / Intersport"
+    },
+    "shorts": {
+      "bought": false,
+      "item": "Running shorts (lined)",
+      "priority": "should",
+      "store": "Run'n More / Intersport"
+    },
+    "singlet": {
+      "bought": false,
+      "item": "Singlet/tech shirt",
+      "priority": "should",
+      "store": "Run'n More / Intersport"
+    },
+    "electrolytes": {
+      "bought": false,
+      "item": "Electrolyte tablets",
+      "priority": "should",
+      "store": "Run'n More / Apoteka"
+    },
+    "nipple_tape": {
+      "bought": false,
+      "item": "Nipple tape / NipGuards",
+      "priority": "must",
+      "store": "Apoteka (medical tape)"
+    },
+    "arm_sleeves": {
+      "bought": false,
+      "item": "Arm sleeves",
+      "priority": "nice",
+      "store": "Run'n More / Intersport"
+    },
+    "sunscreen": {
+      "bought": false,
+      "item": "Sunscreen (sport)",
+      "priority": "should",
+      "store": "Any apoteka"
+    }
+  }
+}
