@@ -19,8 +19,8 @@
 
 This plan is built around one principle: **get to the start line healthy and finish the race on your feet.** This is a survival plan, not a performance plan. Time goal is secondary — finishing is the goal.
 
-### Realistic Finish Time Target
-Given the compressed timeline: **4:30–5:00** (pace: ~6:25–7:05/km). If you feel good on race day, you might beat this. But do NOT plan for faster.
+### Goal Finish Time
+**Sub-4 hours** (pace: ~5:35–5:41/km). This is your half marathon pace for double the distance — aggressive but in the realm of possibility given your fitness history. Decision point: Week 4 long run. If HR and pace hold, we go for it. If not, we adjust to 4:15.
 
 ### Risk Acknowledgment
 - Higher than normal risk of: shin splints, IT band syndrome, Achilles tendinitis, blisters, and general overuse injuries
@@ -143,30 +143,24 @@ The course works in your favor:
 
 This is not optional for your situation — it's the strategy.
 
-### Jeff Galloway Run/Walk Ratio
-**Run 10 minutes / Walk 1–2 minutes** for the entire race.
+### Strategy: Negative Split — Walk Only at Aid Stations
+No scheduled run/walk intervals. Run steady at race pace. Walk only at aid stations (~30–45 sec each, ~8 stations = ~5 min total walking time). Your running pace of 5:35/km compensates for the station walks.
 
-Walking breaks:
-- Prevent your muscles from locking up
-- Allow you to eat gels and drink water properly
-- Extend your glycogen stores
-- Keep your pace more consistent than running continuously and blowing up at km 30
+### Pacing Plan (Sub-4h Target)
 
-### Pacing Plan
+| Segment | Target Pace | Notes |
+|---------|-------------|-------|
+| Km 0–3 | 5:45–5:50/km | DOWNHILL. Don't bank time — bank energy. Hold back. |
+| Km 3–10 | 5:35–5:40/km | Settle into race pace. First gel at km 5. Find a pace group. |
+| Km 10–21 | 5:35–5:40/km | Cruise. Gels on schedule. This should feel controlled, not hard. |
+| Km 21 (halfway) | Check-in | Target split: ~1:58–1:59. If on pace and feeling good, keep going. |
+| Km 21–30 | 5:35–5:45/km | The real race begins. Stay disciplined. Keep eating. |
+| Km 30–35 | 5:45–6:00/km | **The Wall.** Glycogen depleting. Gels critical. 1km at a time. |
+| Km 35–39 | 5:45–6:10/km | You have ~10 min buffer if on pace. Don't panic at slight slowdown. |
+| Km 39–42 | 5:50–6:15/km | UPHILL. 50m climb. Dig deep. Crowd carries you. Empty the tank. |
+| Finish | < 4:00:00 | Hotel Moskva. Sub-4. |
 
-| Segment | Strategy | Target Pace (including walks) | Notes |
-|---------|----------|-------------------------------|-------|
-| Km 0–3 | HOLD BACK | 6:45–7:00/km | Downhill. You'll feel fresh. Everyone around you will be fast. Ignore them. |
-| Km 3–10 | Settle in | 6:30–6:45/km | Find your rhythm. First gel at km 5. |
-| Km 10–21 | Cruise | 6:30–6:45/km | Eat every 35–40 min. Drink at every aid station. You should feel comfortable. |
-| Km 21 (halfway) | Check in | -- | How do you feel? If good, maintain. If struggling, extend walk breaks to 2 min. |
-| Km 21–30 | Stay disciplined | 6:45–7:00/km | This is where undertrained runners start to fade. Walk breaks are saving you. |
-| Km 30–35 | **The Wall** | 7:00–7:30/km | Your glycogen is depleting. Keep eating gels. Break it into 1km chunks. Mantra time. |
-| Km 35–39 | Survive | 7:00–8:00/km | Flat section. Almost there. Walk if needed — there's no shame. |
-| Km 39–42 | **Uphill finish** | Whatever you have | 50m of climbing back to the city. Dig deep. The crowd will carry you. |
-| Km 42–42.2 | Sprint/jog to finish | EVERYTHING | Hotel Moskva. You're a marathoner. |
-
-**Estimated finish time:** 4:45–5:15 (accounting for walk breaks, aid stations, and the wall)
+**Halfway split target: ~1:58–1:59.** If you're at 2:02+ at halfway, sub-4 is still possible but you'll need a perfect second half.
 
 ### Aid Station Strategy
 - Belgrade Marathon has aid stations approximately every 5km
