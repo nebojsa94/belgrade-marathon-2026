@@ -290,17 +290,140 @@
     color: #333; font-size: 0.9rem; font-weight: 600;
   }
 
+  /* Mobile nav toggle */
+  .nav-toggle { display: none; background: none; border: none; color: var(--muted); font-size: 1.5rem; cursor: pointer; padding: 5px; }
+  .nav-links { display: flex; align-items: center; }
+
+  /* Table wrapper for horizontal scroll */
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* TABLET */
   @media (max-width: 900px) {
-    .slide { padding: 40px 25px; }
-    .slide-title h1 { font-size: 2.5rem; }
-    h2 { font-size: 2rem; }
+    .slide { padding: 40px 30px; }
+    .slide-compact { padding: 35px 30px; }
+    .slide-title h1 { font-size: 3rem; }
+    h2 { font-size: 2.2rem; }
     .two-col, .three-col { grid-template-columns: 1fr; }
     .route-card { grid-template-columns: 1fr; }
-    .card-grid { grid-template-columns: 1fr; }
+    .card-grid { grid-template-columns: 1fr 1fr; }
     .progress-grid { grid-template-columns: repeat(3, 1fr); }
-    .run-entry { grid-template-columns: 80px 60px 60px 60px 60px 1fr; font-size: 0.85rem; }
     nav { padding: 0 15px; }
     nav a { font-size: 0.75rem; padding: 18px 6px; }
+  }
+
+  /* MOBILE */
+  @media (max-width: 600px) {
+    .slide { padding: 30px 16px; min-height: auto; }
+    .slide-compact { padding: 25px 16px; }
+    .slide-title { padding: 40px 16px; min-height: 80vh; }
+    .slide-title h1 { font-size: 2.2rem; letter-spacing: -1px; }
+    .slide-title .subtitle { font-size: 1.2rem; margin-bottom: 25px; }
+    .slide-title .meta { font-size: 0.9rem; line-height: 1.8; }
+
+    h2 { font-size: 1.6rem; margin-bottom: 25px; }
+    h2 .number { width: 36px; height: 36px; line-height: 36px; font-size: 1rem; margin-right: 10px; }
+    h3 { font-size: 1.1rem; margin: 20px 0 10px 0; }
+    p, li { font-size: 1rem; line-height: 1.7; }
+
+    /* Nav: hamburger menu */
+    nav { padding: 0 12px; height: 50px; flex-wrap: wrap; }
+    nav .logo { font-size: 0.95rem; margin-right: auto; }
+    nav .countdown { display: none; }
+    .nav-toggle { display: block; }
+    .nav-links {
+      display: none;
+      width: 100%;
+      flex-direction: column;
+      background: rgba(10,10,10,0.98);
+      position: absolute;
+      top: 50px; left: 0; right: 0;
+      padding: 10px 0;
+      border-bottom: 1px solid #222;
+      z-index: 101;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a { padding: 12px 20px; width: 100%; font-size: 0.9rem; }
+    .nav-links a:hover { background: #1a1a1a; }
+    /* Show countdown below logo on mobile */
+    .mobile-countdown {
+      display: block; width: 100%; text-align: center;
+      font-size: 0.8rem; color: var(--dim); padding: 6px 0;
+      border-bottom: 1px solid #1a1a1a; background: var(--bg);
+    }
+
+    /* Progress grid */
+    .progress-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .week-block { padding: 15px 10px; }
+    .week-block .week-km { font-size: 1.6rem; }
+
+    /* Run log: card style instead of grid */
+    .run-entry.header { display: none; }
+    .run-entry {
+      display: flex; flex-wrap: wrap; padding: 14px 0;
+      gap: 4px 12px; font-size: 0.9rem;
+    }
+    .run-entry .date { font-size: 0.95rem; width: 100%; margin-bottom: 2px; }
+
+    /* Tables: horizontal scroll */
+    table { font-size: 0.9rem; min-width: 500px; }
+    thead th { padding: 10px 12px; font-size: 0.8rem; }
+    tbody td { padding: 10px 12px; }
+
+    /* Cards */
+    .card-grid { grid-template-columns: 1fr; gap: 15px; }
+    .card { padding: 20px; }
+    .card h4 { font-size: 1.05rem; }
+    .card p { font-size: 0.9rem; }
+
+    /* Route cards */
+    .route-card { grid-template-columns: 80px 1fr; gap: 15px; padding: 20px; }
+    .route-stats .distance { font-size: 2rem; }
+    .route-details h4 { font-size: 1.05rem; }
+    .route-details p { font-size: 0.85rem; }
+    .route-tag { font-size: 0.7rem; }
+
+    /* Pace bands */
+    .pace-band { flex-wrap: wrap; padding: 12px 14px; gap: 4px; }
+    .pace-band .km { width: 70px; font-size: 0.9rem; }
+    .pace-band .pace { width: 100px; font-size: 0.9rem; }
+    .pace-band .note { width: 100%; font-size: 0.85rem; margin-top: 2px; }
+
+    /* Info/warning boxes */
+    .warning, .info, .success { padding: 18px 16px; }
+    .warning p, .info p, .success p { font-size: 0.95rem; }
+
+    /* Checklist */
+    .checklist-item { font-size: 0.95rem; padding: 10px 0; }
+    .checklist-item .box { width: 20px; height: 20px; margin-right: 12px; }
+
+    /* Timeline */
+    .timeline { padding-left: 30px; }
+    .timeline-item { padding: 15px 18px; }
+    .timeline-item h4 { font-size: 1rem; }
+    .timeline-item p { font-size: 0.85rem; }
+    .timeline-item::before { left: -25px; width: 11px; height: 11px; }
+
+    /* Store cards */
+    .store-card { padding: 18px; }
+
+    /* Big stat */
+    .big-stat .number-val { font-size: 2.8rem; }
+    .big-stat .label { font-size: 0.8rem; }
+
+    /* Two col stacking gap */
+    .two-col { gap: 20px; }
+
+    /* Slide number hide on mobile */
+    .slide-number { display: none; }
+  }
+
+  /* Extra small screens */
+  @media (max-width: 380px) {
+    .slide { padding: 20px 12px; }
+    .slide-title h1 { font-size: 1.8rem; }
+    h2 { font-size: 1.4rem; }
+    .progress-grid { grid-template-columns: 1fr; }
+    .route-card { grid-template-columns: 1fr; }
   }
 
   @media print {
@@ -317,14 +440,17 @@
 <!-- NAV -->
 <nav>
   <span class="logo">BG MARATHON 2026</span>
-  <a href="#dashboard">Dashboard</a>
-  <a href="#plan">Plan</a>
-  <a href="#routes">Routes</a>
-  <a href="#race">Race Day</a>
-  <a href="#nutrition">Nutrition</a>
-  <a href="#gear">Gear</a>
-  <a href="#recovery">Recovery</a>
-  <a href="#unknowns">Tips</a>
+  <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+  <div class="nav-links">
+    <a href="#dashboard" onclick="this.parentElement.classList.remove('open')">Dashboard</a>
+    <a href="#plan" onclick="this.parentElement.classList.remove('open')">Plan</a>
+    <a href="#routes" onclick="this.parentElement.classList.remove('open')">Routes</a>
+    <a href="#race" onclick="this.parentElement.classList.remove('open')">Race Day</a>
+    <a href="#nutrition" onclick="this.parentElement.classList.remove('open')">Nutrition</a>
+    <a href="#gear" onclick="this.parentElement.classList.remove('open')">Gear</a>
+    <a href="#recovery" onclick="this.parentElement.classList.remove('open')">Recovery</a>
+    <a href="#unknowns" onclick="this.parentElement.classList.remove('open')">Tips</a>
+  </div>
   <span class="countdown" id="countdown"></span>
 </nav>
 
@@ -420,7 +546,7 @@
 <!-- SLIDE 5: 5-Week Plan Overview -->
 <div class="slide" id="plan">
   <h2><span class="number">&#9201;</span> 5-Week Plan</h2>
-  <table>
+  <div class="table-wrap"><table>
     <thead><tr><th>Week</th><th>Dates</th><th>Long Run</th><th>Volume</th><th>Focus</th></tr></thead>
     <tbody>
       <tr><td><strong>1</strong></td><td>Mar 15–21</td><td>—</td><td>~18km</td><td>Rebuild. First runs. Buy gear.</td></tr>
@@ -429,7 +555,7 @@
       <tr><td><strong>4</strong></td><td>Apr 5–11</td><td>28–30km</td><td>~41km</td><td style="color:var(--orange);font-weight:700;">PEAK. Full race-day rehearsal.</td></tr>
       <tr><td><strong>5</strong></td><td>Apr 12–19</td><td>42.195km</td><td>~20km + race</td><td style="color:var(--green);font-weight:700;">Taper → RACE DAY</td></tr>
     </tbody>
-  </table>
+  </table></div>
   <div class="warning">
     <p><strong>The Week 4 long run (28–30km) is the most important session.</strong> Race-day dress rehearsal: same gels, same pacing, same run/walk ratio. Everything else builds to it and tapers from it.</p>
   </div>
@@ -438,7 +564,7 @@
 <!-- SLIDE 6-10: Weekly Details -->
 <div class="slide slide-compact">
   <h2><span class="number">1</span> Week 1: Rebuild (Mar 15–21)</h2>
-  <table>
+  <div class="table-wrap"><table>
     <thead><tr><th>Day</th><th>Workout</th><th>Route</th><th>Details</th></tr></thead>
     <tbody>
       <tr><td><strong>Sat 15</strong></td><td>Easy run/walk 5km</td><td>Košutnjak Trim staza + trails</td><td>Run 4 min / walk 1 min. Easy 7:00+/km.</td></tr>
@@ -449,13 +575,13 @@
       <tr><td><strong>Thu 20</strong></td><td>Rest</td><td>—</td><td>Foam roll, stretch, strength circuit.</td></tr>
       <tr><td><strong>Fri 21</strong></td><td>Rest</td><td>—</td><td>Prepare for long run.</td></tr>
     </tbody>
-  </table>
+  </table></div>
   <div class="info"><p><strong>~18km</strong> — Get moving again without injury. Soft Košutnjak surface protects deconditioned joints.</p></div>
 </div>
 
 <div class="slide slide-compact">
   <h2><span class="number">2</span> Week 2: First Long Run (Mar 22–28)</h2>
-  <table>
+  <div class="table-wrap"><table>
     <thead><tr><th>Day</th><th>Workout</th><th>Route</th><th>Details</th></tr></thead>
     <tbody>
       <tr><td><strong>Sat 22</strong></td><td style="color:var(--orange);font-weight:700;">Long run 14km</td><td>Ada (1 loop) + Sava extension</td><td>Run 8/walk 2. Water + 1 gel at km 10.</td></tr>
@@ -466,13 +592,13 @@
       <tr><td><strong>Thu 27</strong></td><td>Rest</td><td>—</td><td>Foam roll, stretch.</td></tr>
       <tr><td><strong>Fri 28</strong></td><td>Easy run 5km</td><td>Košutnjak — in Adios Pro 4</td><td>1st break-in run in race shoes.</td></tr>
     </tbody>
-  </table>
+  </table></div>
   <div class="info"><p><strong>~33km</strong> — First real test. The 14km tells you where your body is.</p></div>
 </div>
 
 <div class="slide slide-compact">
   <h2><span class="number">3</span> Week 3: Half Marathon (Mar 29–Apr 4)</h2>
-  <table>
+  <div class="table-wrap"><table>
     <thead><tr><th>Day</th><th>Workout</th><th>Route</th><th>Details</th></tr></thead>
     <tbody>
       <tr><td><strong>Sat 29</strong></td><td style="color:var(--orange);font-weight:700;">Long run 21km</td><td>Ada (1 loop) + Sava embankment + Topčider → home</td><td>Run 10/walk 2. 2 gels (km 8 + km 16).</td></tr>
@@ -483,13 +609,13 @@
       <tr><td><strong>Thu 3</strong></td><td>Rest</td><td>—</td><td>Foam roll, stretch.</td></tr>
       <tr><td><strong>Fri 4</strong></td><td>Easy run 6km</td><td>Košutnjak — in Adios Pro 4</td><td>2nd break-in run in race shoes.</td></tr>
     </tbody>
-  </table>
+  </table></div>
   <div class="success"><p><strong>~40km</strong> — Half marathon done! You've done this before.</p></div>
 </div>
 
 <div class="slide slide-compact">
   <h2><span class="number">4</span> Week 4: Peak (Apr 5–11)</h2>
-  <table>
+  <div class="table-wrap"><table>
     <thead><tr><th>Day</th><th>Workout</th><th>Route</th><th>Details</th></tr></thead>
     <tbody>
       <tr><td><strong>Sat 5</strong></td><td style="color:var(--orange);font-weight:700;">Long run 28–30km ★</td><td>Ada → bridge → New Belgrade → Zemun direction → back</td><td>Run 10/walk 2. Belt: 3–4 gels. Full race rehearsal!</td></tr>
@@ -500,13 +626,13 @@
       <tr><td><strong>Thu 10</strong></td><td>Easy run 6km</td><td>Ada — in Adios Pro 4</td><td>3rd break-in. Final shoe test.</td></tr>
       <tr><td><strong>Fri 11</strong></td><td>Rest</td><td>—</td><td></td></tr>
     </tbody>
-  </table>
+  </table></div>
   <div class="warning"><p><strong>The 28–30km is everything.</strong> Practice EXACT race-day nutrition. Same gels, timing, hydration. If something fails, you have 2 weeks to fix it.</p></div>
 </div>
 
 <div class="slide slide-compact">
   <h2><span class="number">5</span> Week 5: Taper → Race (Apr 12–19)</h2>
-  <table>
+  <div class="table-wrap"><table>
     <thead><tr><th>Day</th><th>Workout</th><th>Route</th><th>Details</th></tr></thead>
     <tbody>
       <tr><td><strong>Sat 12</strong></td><td>Easy 8km</td><td>Ada single loop</td><td>Last real run. Relaxed.</td></tr>
@@ -518,7 +644,7 @@
       <tr><td><strong>Fri 18</strong></td><td>Rest</td><td>—</td><td style="color:var(--gold);">Lay out gear. Pin bib. Charge watch. Bed by 9 PM.</td></tr>
       <tr><td style="color:var(--green);font-weight:900;font-size:1.2rem;">Sun 19</td><td style="color:var(--green);font-weight:900;font-size:1.2rem;">RACE DAY</td><td style="color:var(--green);">Trg Republike → Hotel Moskva</td><td style="color:var(--green);font-weight:700;">42.195 km</td></tr>
     </tbody>
-  </table>
+  </table></div>
   <div class="success"><p><strong>You'll feel restless and sluggish. This is normal.</strong> You're NOT losing fitness. Trust the taper.</p></div>
 </div>
 
@@ -627,7 +753,7 @@
     </div>
     <div>
       <h3>Gel Schedule</h3>
-      <table>
+      <div class="table-wrap"><table>
         <thead><tr><th>Km</th><th>What</th></tr></thead>
         <tbody>
           <tr><td>5</td><td>Gel #1 + water</td></tr>
@@ -638,7 +764,7 @@
           <tr><td>35</td><td>Gel #6 + water</td></tr>
           <tr><td>39</td><td>Gel #7 (if stomach OK)</td></tr>
         </tbody>
-      </table>
+      </table></div>
       <div class="warning"><p>Practice this EXACT schedule on your 28–30km run.</p></div>
     </div>
   </div>
@@ -672,7 +798,7 @@
     <div>
       <h3>Shoes</h3>
       <div class="warning"><p><strong>Adios Pro 4 = RACE DAY ONLY.</strong> Carbon super shoe. 3 break-in runs before race (in the plan). You need a daily trainer — get fitted at Run'n More.</p></div>
-      <table>
+      <div class="table-wrap"><table>
         <thead><tr><th>Daily Trainer</th><th>~EUR</th></tr></thead>
         <tbody>
           <tr><td>Adidas Boston 12</td><td>€130</td></tr>
@@ -680,12 +806,12 @@
           <tr><td>ASICS Novablast 4</td><td>€140</td></tr>
           <tr><td>ASICS Gel-Nimbus 26</td><td>€160</td></tr>
         </tbody>
-      </table>
+      </table></div>
 
     </div>
     <div>
       <h3>Shopping List</h3>
-      <table>
+      <div class="table-wrap"><table>
         <thead><tr><th>Item</th><th>Where</th><th>EUR</th></tr></thead>
         <tbody>
           <tr><td>Daily training shoe (fitted)</td><td>Run'n More</td><td>120–160</td></tr>
@@ -701,7 +827,7 @@
           <tr><td>Arm sleeves</td><td>Run'n More</td><td>15–20</td></tr>
           <tr><td>Sunscreen (sport)</td><td>Apoteka</td><td>10</td></tr>
         </tbody>
-      </table>
+      </table></div>
       <p style="margin-top:15px;font-size:1.1rem;color:var(--orange);font-weight:700;">Total: ~€315–455 (no watch needed)</p>
     </div>
   </div>
@@ -723,7 +849,7 @@
     </div>
     <div>
       <h3>Strength Circuit (2x/week, Weeks 1–3)</h3>
-      <table>
+      <div class="table-wrap"><table>
         <thead><tr><th>Exercise</th><th>Reps</th></tr></thead>
         <tbody>
           <tr><td>Single-leg glute bridges</td><td>12 each</td></tr>
@@ -733,7 +859,7 @@
           <tr><td>Plank</td><td>30–45 sec</td></tr>
           <tr><td>Dead bug</td><td>8 each</td></tr>
         </tbody>
-      </table>
+      </table></div>
       <div class="warning"><p><strong>Sleep 8+ hours. Non-negotiable.</strong> Your most powerful recovery tool.</p></div>
       <h3>STOP Running If:</h3>
       <ul>
@@ -827,7 +953,7 @@
 
   // Week data
   const weeks = [
-    { num: 1, dates: '03-14 – 03-21', targetKm: 18, actualKm: 5.0, longRun: '—', status: 'current', runs: [] },
+    { num: 1, dates: '03-14 – 03-21', targetKm: 18, actualKm: 11.0, longRun: '—', status: 'current', runs: [] },
     { num: 2, dates: '03-22 – 03-28', targetKm: 33, actualKm: 0.0, longRun: '14km', status: 'todo', runs: [] },
     { num: 3, dates: '03-29 – 04-04', targetKm: 40, actualKm: 0.0, longRun: '21km', status: 'todo', runs: [] },
     { num: 4, dates: '04-05 – 04-11', targetKm: 41, actualKm: 0.0, longRun: '28–30km', status: 'todo', runs: [] },
@@ -836,7 +962,8 @@
 
   // Runs data — UPDATE THIS AS RUNS ARE COMPLETED
   const runs = [
-    { date: '2026-03-14', distance: 5.03, time: '30:01', pace: '5:58', hr: 145, notes: 'Night Run', week: 1 }
+    { date: '2026-03-14', distance: 5.03, time: '30:01', pace: '5:58', hr: 145, notes: 'Night Run', week: 1 },
+    { date: '2026-03-16', distance: 6.01, time: '36:28', pace: '6:04', hr: 148, notes: 'Evening Run', week: 1 }
   ];
 
   // Render week blocks
