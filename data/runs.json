@@ -47,29 +47,29 @@
       "pace": "6:02",
       "hr": 151,
       "notes": "Afternoon Run",
-      "week": 1
+      "week": 2
     }
   ],
   "weekly_summary": [
     {
       "week": 1,
-      "dates": "2026-03-14 to 2026-03-21",
+      "dates": "2026-03-14 to 2026-03-20",
       "target_km": 18,
-      "actual_km": 32.19,
-      "num_runs": 4,
+      "actual_km": 18.06,
+      "num_runs": 3,
       "long_run_target": "—"
     },
     {
       "week": 2,
-      "dates": "2026-03-22 to 2026-03-28",
+      "dates": "2026-03-21 to 2026-03-27",
       "target_km": 33,
-      "actual_km": 0,
-      "num_runs": 0,
+      "actual_km": 14.13,
+      "num_runs": 1,
       "long_run_target": "14km"
     },
     {
       "week": 3,
-      "dates": "2026-03-29 to 2026-04-04",
+      "dates": "2026-03-28 to 2026-04-03",
       "target_km": 40,
       "actual_km": 0,
       "num_runs": 0,
@@ -77,7 +77,7 @@
     },
     {
       "week": 4,
-      "dates": "2026-04-05 to 2026-04-11",
+      "dates": "2026-04-04 to 2026-04-10",
       "target_km": 41,
       "actual_km": 0,
       "num_runs": 0,
@@ -85,7 +85,7 @@
     },
     {
       "week": 5,
-      "dates": "2026-04-12 to 2026-04-19",
+      "dates": "2026-04-11 to 2026-04-19",
       "target_km": 20,
       "actual_km": 0,
       "num_runs": 0,

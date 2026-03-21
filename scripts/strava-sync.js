@@ -20,11 +20,11 @@ const RACE_DATE = new Date('2026-04-19');
 
 // Week boundaries
 const WEEKS = [
-  { num: 1, start: '2026-03-14', end: '2026-03-21', targetKm: 18, longRun: '—' },
-  { num: 2, start: '2026-03-22', end: '2026-03-28', targetKm: 33, longRun: '14km' },
-  { num: 3, start: '2026-03-29', end: '2026-04-04', targetKm: 40, longRun: '21km' },
-  { num: 4, start: '2026-04-05', end: '2026-04-11', targetKm: 41, longRun: '28–30km' },
-  { num: 5, start: '2026-04-12', end: '2026-04-19', targetKm: 20, longRun: 'RACE' },
+  { num: 1, start: '2026-03-14', end: '2026-03-20', targetKm: 18, longRun: '—' },
+  { num: 2, start: '2026-03-21', end: '2026-03-27', targetKm: 33, longRun: '14km' },
+  { num: 3, start: '2026-03-28', end: '2026-04-03', targetKm: 40, longRun: '21km' },
+  { num: 4, start: '2026-04-04', end: '2026-04-10', targetKm: 41, longRun: '28–30km' },
+  { num: 5, start: '2026-04-11', end: '2026-04-19', targetKm: 20, longRun: 'RACE' },
 ];
 
 function getWeekNum(dateStr) {
