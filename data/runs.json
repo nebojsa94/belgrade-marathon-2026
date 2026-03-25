@@ -57,6 +57,15 @@
       "hr": 145,
       "notes": "Night Run",
       "week": 2
+    },
+    {
+      "date": "2026-03-25",
+      "distance": 8.37,
+      "time": "48:17",
+      "pace": "5:46",
+      "hr": 150,
+      "notes": "Night Run",
+      "week": 2
     }
   ],
   "weekly_summary": [
@@ -72,8 +81,8 @@
       "week": 2,
       "dates": "2026-03-21 to 2026-03-27",
       "target_km": 33,
-      "actual_km": 17.64,
-      "num_runs": 2,
+      "actual_km": 26.01,
+      "num_runs": 3,
       "long_run_target": "14km"
     },
     {
