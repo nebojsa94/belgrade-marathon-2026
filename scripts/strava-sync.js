@@ -14,6 +14,48 @@ const TOKENS_PATH = path.join(__dirname, '..', 'data', 'strava-tokens.json');
 const RUNS_PATH = path.join(__dirname, '..', 'data', 'runs.json');
 const HTML_PATH = path.join(__dirname, '..', 'index.html');
 
+// Support environment variables for CI (GitHub Actions)
+function getConfig() {
+  if (process.env.STRAVA_CLIENT_ID && process.env.STRAVA_CLIENT_SECRET) {
+    return {
+      client_id: process.env.STRAVA_CLIENT_ID,
+      client_secret: process.env.STRAVA_CLIENT_SECRET,
+    };
+  }
+  if (!fs.existsSync(CONFIG_PATH)) {
+    console.error('Missing strava-config.json. Run strava-auth.js first.');
+    process.exit(1);
+  }
+  return JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'));
+}
+
+function getTokens() {
+  if (process.env.STRAVA_REFRESH_TOKEN) {
+    return {
+      access_token: process.env.STRAVA_ACCESS_TOKEN || '',
+      refresh_token: process.env.STRAVA_REFRESH_TOKEN,
+      expires_at: 0, // force refresh
+    };
+  }
+  if (!fs.existsSync(TOKENS_PATH)) {
+    console.error('Missing strava-tokens.json. Run strava-auth.js first.');
+    process.exit(1);
+  }
+  return JSON.parse(fs.readFileSync(TOKENS_PATH, 'utf8'));
+}
+
+function saveTokens(tokens) {
+  if (process.env.STRAVA_REFRESH_TOKEN) {
+    // In CI, output new refresh token for GitHub Actions to update the secret
+    if (tokens.refresh_token !== process.env.STRAVA_REFRESH_TOKEN) {
+      console.log(`::warning::Strava refresh token has changed. Update the STRAVA_REFRESH_TOKEN secret.`);
+      console.log(`NEW_REFRESH_TOKEN=${tokens.refresh_token}`);
+    }
+    return;
+  }
+  fs.writeFileSync(TOKENS_PATH, JSON.stringify(tokens, null, 2));
+}
+
 // Training plan start date
 const PLAN_START = new Date('2026-03-14');
 const RACE_DATE = new Date('2026-04-19');
@@ -74,7 +116,7 @@ async function refreshToken(config, tokens) {
   tokens.access_token = result.access_token;
   tokens.refresh_token = result.refresh_token;
   tokens.expires_at = result.expires_at;
-  fs.writeFileSync(TOKENS_PATH, JSON.stringify(tokens, null, 2));
+  saveTokens(tokens);
   console.log('Token refreshed.');
   return tokens;
 }
@@ -147,17 +189,8 @@ function updateHTML(runs) {
 }
 
 async function main() {
-  if (!fs.existsSync(CONFIG_PATH)) {
-    console.error('Missing strava-config.json. Run strava-auth.js first.');
-    process.exit(1);
-  }
-  if (!fs.existsSync(TOKENS_PATH)) {
-    console.error('Missing strava-tokens.json. Run strava-auth.js first.');
-    process.exit(1);
-  }
-
-  const config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'));
-  let tokens = JSON.parse(fs.readFileSync(TOKENS_PATH, 'utf8'));
+  const config = getConfig();
+  let tokens = getTokens();
 
   // Refresh token if needed
   tokens = await refreshToken(config, tokens);

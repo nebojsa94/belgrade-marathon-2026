@@ -1,0 +1,44 @@
+name: Sync Strava Runs
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'  # Every 30 minutes
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Sync Strava activities
+        env:
+          STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
+          STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
+          STRAVA_REFRESH_TOKEN: ${{ secrets.STRAVA_REFRESH_TOKEN }}
+        run: node scripts/strava-sync.js
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/runs.json index.html
+          if git diff --cached --quiet; then
+            echo "No new activities to sync."
+          else
+            LATEST_RUN=$(node -e "
+              const data = require('./data/runs.json');
+              const last = data.runs[data.runs.length - 1];
+              if (last) console.log(last.date + ' ' + last.distance + 'km ' + last.notes);
+              else console.log('no runs');
+            ")
+            git commit -m "Sync latest Strava run: ${LATEST_RUN}"
+            git push
+          fi
