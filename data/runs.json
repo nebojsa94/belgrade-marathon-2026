@@ -93,6 +93,15 @@
       "hr": 156,
       "notes": "Lunch Run",
       "week": 4
+    },
+    {
+      "date": "2026-04-08",
+      "distance": 29.02,
+      "time": "2:53:35",
+      "pace": "5:59",
+      "hr": 156,
+      "notes": "Evening Run",
+      "week": 4
     }
   ],
   "weekly_summary": [
@@ -124,8 +133,8 @@
       "week": 4,
       "dates": "2026-04-04 to 2026-04-10",
       "target_km": 41,
-      "actual_km": 8.09,
-      "num_runs": 1,
+      "actual_km": 37.11,
+      "num_runs": 2,
       "long_run_target": "28–30km"
     },
     {
