@@ -102,6 +102,15 @@
       "hr": 156,
       "notes": "Evening Run",
       "week": 4
+    },
+    {
+      "date": "2026-04-12",
+      "distance": 10,
+      "time": "56:24",
+      "pace": "5:38",
+      "hr": 144,
+      "notes": "Morning Run",
+      "week": 5
     }
   ],
   "weekly_summary": [
@@ -141,8 +150,8 @@
       "week": 5,
       "dates": "2026-04-11 to 2026-04-19",
       "target_km": 20,
-      "actual_km": 0,
-      "num_runs": 0,
+      "actual_km": 10,
+      "num_runs": 1,
       "long_run_target": "RACE"
     }
   ],
