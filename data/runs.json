@@ -111,6 +111,15 @@
       "hr": 144,
       "notes": "Morning Run",
       "week": 5
+    },
+    {
+      "date": "2026-04-19",
+      "distance": 42.44,
+      "time": "4:14:27",
+      "pace": "5:60",
+      "hr": 162,
+      "notes": "Belgrade Marathon",
+      "week": 5
     }
   ],
   "weekly_summary": [
@@ -150,8 +159,8 @@
       "week": 5,
       "dates": "2026-04-11 to 2026-04-19",
       "target_km": 20,
-      "actual_km": 10,
-      "num_runs": 1,
+      "actual_km": 52.44,
+      "num_runs": 2,
       "long_run_target": "RACE"
     }
   ],
