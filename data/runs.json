@@ -120,6 +120,15 @@
       "hr": 162,
       "notes": "Belgrade Marathon",
       "week": 5
+    },
+    {
+      "date": "2026-04-26",
+      "distance": 10.08,
+      "time": "59:34",
+      "pace": "5:54",
+      "hr": 144,
+      "notes": "Morning Run",
+      "week": 0
     }
   ],
   "weekly_summary": [
