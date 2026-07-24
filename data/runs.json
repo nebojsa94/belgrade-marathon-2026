@@ -165,6 +165,24 @@
       "hr": 149,
       "notes": "Evening Run",
       "week": 0
+    },
+    {
+      "date": "2026-07-19",
+      "distance": 9.54,
+      "time": "59:08",
+      "pace": "6:12",
+      "hr": 150,
+      "notes": "Morning Run",
+      "week": 0
+    },
+    {
+      "date": "2026-07-24",
+      "distance": 10.01,
+      "time": "58:10",
+      "pace": "5:49",
+      "hr": 152,
+      "notes": "Night Run",
+      "week": 0
     }
   ],
   "weekly_summary": [
