@@ -183,6 +183,15 @@
       "hr": 152,
       "notes": "Night Run",
       "week": 0
+    },
+    {
+      "date": "2026-07-25",
+      "distance": 10,
+      "time": "58:33",
+      "pace": "5:51",
+      "hr": 151,
+      "notes": "Evening Run",
+      "week": 0
     }
   ],
   "weekly_summary": [
