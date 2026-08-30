@@ -210,6 +210,15 @@
       "hr": 159,
       "notes": "Morning Run",
       "week": 0
+    },
+    {
+      "date": "2026-08-30",
+      "distance": 10.01,
+      "time": "56:28",
+      "pace": "5:39",
+      "hr": 154,
+      "notes": "Evening Run",
+      "week": 0
     }
   ],
   "weekly_summary": [
