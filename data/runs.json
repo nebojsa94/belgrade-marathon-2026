@@ -219,6 +219,15 @@
       "hr": 154,
       "notes": "Evening Run",
       "week": 0
+    },
+    {
+      "date": "2026-09-05",
+      "distance": 5.34,
+      "time": "29:28",
+      "pace": "5:31",
+      "hr": 157,
+      "notes": "Morning Run",
+      "week": 0
     }
   ],
   "weekly_summary": [
